@@ -1,5 +1,5 @@
 from time import sleep
-from pyardrone import ARDrone, at
+from pyardrone import ARDrone, at, video
 import pyardrone
 
 
@@ -10,6 +10,7 @@ class Drone(ARDrone):
         super().send(at.CONFIG('general:navdata_demo', True))
         sleep(1)
         self.navData = super().navdata.demo
+        self.video_ready.wait()
 
     def takeoff(self):
         print('Taking off')
@@ -25,3 +26,6 @@ class Drone(ARDrone):
     def getNavData(self):
         self.navData = super().navdata.demo
         return self.navData
+
+    def isFlying(self):
+        return self.state.fly_mask
